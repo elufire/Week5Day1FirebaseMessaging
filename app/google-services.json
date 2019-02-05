@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "750108300919",
+    "firebase_url": "https://week5day1firebasemessaging.firebaseio.com",
+    "project_id": "week5day1firebasemessaging",
+    "storage_bucket": "week5day1firebasemessaging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750108300919:android:b9955d22111e7193",
+        "android_client_info": {
+          "package_name": "com.example.week5day1firebasemessaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750108300919-3hhrpgg7inuklqa3a2ifvmgj59msb75v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.week5day1firebasemessaging",
+            "certificate_hash": "d4b70637f6cfd6fbe7f1acdc080a1aab643233fa"
+          }
+        },
+        {
+          "client_id": "750108300919-t02hjiu12el5lv7pgk9bsv0dnfirt4vn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx47tNPowzQYExky3r4Yf_pYD1o3fJR68"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750108300919-t02hjiu12el5lv7pgk9bsv0dnfirt4vn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
