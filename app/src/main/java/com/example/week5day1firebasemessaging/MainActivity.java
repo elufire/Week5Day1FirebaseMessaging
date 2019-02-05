@@ -1,5 +1,6 @@
 package com.example.week5day1firebasemessaging;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
         myRef = database.getReference();
         System.out.println("Key is: " + myRef.getKey());
 
-        saveMessageToFirebaseDB(new Message("___", "____", "--", "6969" ));
+        saveMessageToFirebaseDB(new Message("--", "--", "--", "6969" ));
 
     }
 
@@ -79,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
                 System.out.println(response);
                 Message onChangeMessage = new Gson().fromJson(response, Message.class);
                 String time = onChangeMessage.getTime();
-                time = time.replaceAll("_", ":");
                 tvReceiveMessage.setText("Received at: " +  time +
                         "\nFrom: " + onChangeMessage.getEmail() +
                         "\n\n" + onChangeMessage.getMessage());
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
         });
     }
 
-    public void onClick(View view) {
+    public void onClick(final View view) {
         String email = etEmail.getText() != null ? etEmail.getText().toString() : "";
         String password = etPassword.getText() != null ? etPassword.getText().toString() : "";
         switch (view.getId()){
@@ -106,11 +106,12 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d("TAG", "signInWithEmail:success");
                                         FirebaseUser user = firebaseAuth.getCurrentUser();
+                                        Toast.makeText(view.getContext(), "Signed in Successfully!", Toast.LENGTH_SHORT).show();
                                         //userLoginPresenter.upDateFirebaseUser(user);
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w("TAG", "signInWithEmail:failure", task.getException());
-
+                                        Toast.makeText(view.getContext(), "Sign in Failed!", Toast.LENGTH_SHORT).show();
                                         //userLoginPresenter.upDateFirebaseUser(null);
                                     }
 
@@ -135,11 +136,12 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d("TAG", "createUserWithEmail:success");
                                         FirebaseUser user = firebaseAuth.getCurrentUser();
+                                        Toast.makeText(view.getContext(), "Sign up Successful!", Toast.LENGTH_SHORT).show();
                                         //userLoginPresenter.upDateFirebaseUser(user);
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w("TAG", "createUserWithEmail:failure", task.getException());
-
+                                        Toast.makeText(view.getContext(), "Sign up Failed!", Toast.LENGTH_SHORT).show();
                                         //userLoginPresenter.upDateFirebaseUser(null);
                                     }
 
@@ -161,13 +163,13 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
 
     @Override
     public void MessageReturnCheck() {
-
-            myRef.child("6969").child("message").setValue(etMessage.getText().toString());
+            String message = "'" + etMessage.getText().toString() + "'";
+            myRef.child("6969").child("message").setValue(message);
             myRef.child("6969").child("email").setValue(firebaseAuth.getCurrentUser().getEmail());
             Date date = new Date();
-            String strDateFormat = "hh_mma";
+            String strDateFormat = "hh:mma";
             DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
-            String formattedDate= dateFormat.format(date);
+            String formattedDate= "'" + dateFormat.format(date) + "'";
             myRef.child("6969").child("time").setValue(formattedDate);
 
 
