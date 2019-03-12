@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Set all our views
         firebaseAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
         etEmail = findViewById(R.id.etEmail);
@@ -59,25 +60,24 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
         tvReceiveMessage = findViewById(R.id.tvReceiveMessage);
         userLoginPresenter = new UserLoginPresenter(this);
 
+        //Get firebase database reference
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-        System.out.println("Key is: " + myRef.getKey());
 
+        //Set a default message to start off the program with
         saveMessageToFirebaseDB(new Message("--", "--", "--", "6969" ));
 
     }
 
-
+    //Start a listener for messages on the specific key
     private  void  saveMessageToFirebaseDB(Message message){
         String key = message.getKey();
-        //message.setKey(key);
         myRef.child(key).setValue(message);
         myRef.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("TAG", "onDataChange: " + dataSnapshot.getKey() + " = " + dataSnapshot.getValue());
                 String response = dataSnapshot.getValue().toString();
-                System.out.println(response);
                 Message onChangeMessage = new Gson().fromJson(response, Message.class);
                 String time = onChangeMessage.getTime();
                 tvReceiveMessage.setText("Received at: " +  time +
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
         String email = etEmail.getText() != null ? etEmail.getText().toString() : "";
         String password = etPassword.getText() != null ? etPassword.getText().toString() : "";
         switch (view.getId()){
+            //sign the user in
             case R.id.btnSignIn:
                 if(!email.isEmpty() && !password.isEmpty()){
                     firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -120,12 +121,13 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
                             });
                 }
                 else {
+                    //notify user that the credentials do not exist
                     tvLoinResult.setText("User Does not exist, Please ReEnter");
                     etEmail.setText("");
                     etPassword.setText("");
                 }
-
                 break;
+                //sign up the user
             case R.id.btnSignUp:
                 if(!email.isEmpty() && !password.isEmpty()){
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -149,11 +151,12 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
                                 }
                             });
                 }else{
-                    tvLoinResult.setText("User Does not exist");
+                    tvLoinResult.setText("Please Enter email and password for SignUp...");
                     etEmail.setText("");
                     etPassword.setText("");
                 }
                 break;
+                //User sends the entered message
             case R.id.btnSendMessage:
                 userLoginPresenter.checkMessage(etMessage.getText().toString(), firebaseAuth.getCurrentUser());
                 break;
@@ -161,8 +164,9 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
         }
     }
 
+    //Set the message in the firebase database after the presenter has performed check and deemed the message in good format.
     @Override
-    public void MessageReturnCheck() {
+    public void MessageReturnFromCheck() {
             String message = "'" + etMessage.getText().toString() + "'";
             myRef.child("6969").child("message").setValue(message);
             myRef.child("6969").child("email").setValue(firebaseAuth.getCurrentUser().getEmail());
@@ -171,15 +175,12 @@ public class MainActivity extends AppCompatActivity implements UserLoginContract
             DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
             String formattedDate= "'" + dateFormat.format(date) + "'";
             myRef.child("6969").child("time").setValue(formattedDate);
-
-
     }
 
+    //Tell the user with a toast that the message was not acceptable and they should reenter another message.
     @Override
-    public void MessageReturnBadCheck() {
-
+    public void MessageReturnFromBadCheck() {
             Toast.makeText(this, "Input a valid Value for Message!", Toast.LENGTH_SHORT).show();
-
     }
 }
 

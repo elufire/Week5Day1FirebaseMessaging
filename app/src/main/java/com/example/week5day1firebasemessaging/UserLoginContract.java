@@ -4,6 +4,6 @@ import com.facebook.login.LoginResult;
 import com.google.firebase.auth.FirebaseUser;
 
 public interface UserLoginContract {
-    void MessageReturnCheck();
-    void MessageReturnBadCheck();
+    void MessageReturnFromCheck();
+    void MessageReturnFromBadCheck();
 }

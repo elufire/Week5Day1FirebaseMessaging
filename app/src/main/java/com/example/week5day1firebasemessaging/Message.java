@@ -6,7 +6,6 @@ public class Message {
     String time;
     String key;
 
-
     public Message() {
     }
 
