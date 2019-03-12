@@ -1,5 +1,5 @@
 # Week5Day1FirebaseMessaging
-Firebase Messaging
+Simple Firebase Messaging example that demonstrates how to use a realtime database to implement a messaging service. Uses MVP architecture.
 
 
 Good Output and Message
